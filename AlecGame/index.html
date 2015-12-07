@@ -1,0 +1,109 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+    <title>Tank Game</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+// var mySprites = game.load.spritesheet('tank', 'assets/tank.png', 32, 32);
+function preload() {
+
+    // mySprites = game.load.spritesheet('tank', 'assets/tank.png', 32, 32);
+    game.load.spritesheet('tank', 'assets/tank.png', 32, 32);
+
+}
+
+var player;
+var bullets
+var cursors;
+
+function create() {
+    
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    player = game.add.sprite(32, game.world.height - 150, 'tank');
+    
+    // for(i = 0; i < 800; i+=32 )
+     game.add.tileSprite(0, 0, 800, 600, 'tank',87)
+    
+    game.physics.arcade.enable(player);
+
+   // game.world.setBounds(-1000, -1000, 2000, 2000);
+   
+   // game.camera.follow(player);
+    player.body.collideWorldBounds = true;
+
+
+    player.animations.add('left', [64, 86, 108, 130, 152, 174, 196], 15, true);
+    player.animations.add('right', [65, 87, 109, 131, 153 ,175, 197], 15, true);
+    player.animations.add('up', [219, 220, 221, 222, 223 ,224, 226], 15, true);
+    player.animations.add('down', [241, 242, 243, 244, 245 ,246, 247], 15, true);
+
+    cursors = game.input.keyboard.createCursorKeys();
+    
+    
+}
+
+
+function update() {
+
+    game.physics.arcade.overlap(player, null, this);
+
+    
+    player.body.velocity.x = 0;
+
+    if (cursors.left.isDown)
+    {
+        
+        player.body.x -= 5;
+
+        player.animations.play('left');
+    }
+    else if (cursors.right.isDown)
+    {
+        
+        player.body.x += 5;
+
+        player.animations.play('right');
+    }
+    else 
+    {
+       
+        player.animations.stop();
+    }
+    if  (cursors.up.isDown)
+    {
+        
+        player.body.y -= 5;
+        
+        player.animations.play('up');
+    }
+     else if  (cursors.down.isDown)
+     {
+        
+        player.body.y += 5;
+        
+        player.animations.play('down');
+    }
+    
+    
+    
+   
+
+}
+
+
+</script>
+
+</body>
+</html>
